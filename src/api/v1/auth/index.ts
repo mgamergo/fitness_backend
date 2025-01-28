@@ -48,6 +48,7 @@ router.post('/signup', async (req: Request<{}, {}, SignupRequestBody>, res: Resp
         hashedPassword,
       },
     });
+    
 
     // Generate JWT token
     const token = jwt.sign({ userId: newUser.userId }, process.env.JWT_SECRET!, {
