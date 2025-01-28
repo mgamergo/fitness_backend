@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/api/utils/authmiddleware.ts","./src/api/v1/index.ts","./src/api/v1/auth/index.ts","./src/api/v1/food/index.ts","./src/db/index.ts","./src/types/declerations/express.d.ts"],"version":"5.7.3"}
