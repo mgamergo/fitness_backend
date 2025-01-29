@@ -18,7 +18,7 @@ interface LoginRequestBody {
 }
 
 // Signup endpoint
-router.post('/signup', async (req: Request<{}, {}, SignupRequestBody>, res: Response) => {
+router.post('/signup', async (req: Request, res: Response) => {
   const { name, username, password } = req.body;
 
   if (!name || !username || !password) {
@@ -64,7 +64,7 @@ router.post('/signup', async (req: Request<{}, {}, SignupRequestBody>, res: Resp
 });
 
 // Login endpoint
-router.post('/login', async (req: Request<{}, {}, LoginRequestBody>, res: Response) => {
+router.post('/login', async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
   if (!username || !password) {

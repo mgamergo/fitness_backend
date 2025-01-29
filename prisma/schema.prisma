@@ -9,22 +9,22 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 model Users {
-  userId          Int        @id @default(autoincrement())
-  name            String
-  username        String     @unique
-  hashedPassword  String
+  userId         Int    @id @default(autoincrement())
+  name           String
+  username       String @unique
+  hashedPassword String
 
-  daywise_macros  Daywise_macros[]
+  daywise_macros Daywise_macros[]
 }
 
 model Recipes {
-  recipeId   Int     @id @default(autoincrement())
+  recipeId   Int    @id @default(autoincrement())
   recipeName String
   calories   Float
   protein    Float
@@ -34,14 +34,15 @@ model Recipes {
 }
 
 model Daywise_macros {
-  dayId     Int     @id @default(autoincrement())
-  userId    Int
-  date      DateTime
-  calories  Float
-  protein   Float
-  carbs     Float
-  fats      Float
-  fiber     Float
+  dayId      Int      @id @default(autoincrement())
+  userId     Int
+  date       DateTime @default(now())
+  recipeName String
+  calories   Float
+  protein    Float
+  carbs      Float
+  fats       Float
+  fiber      Float
 
-  users     Users   @relation(fields: [userId], references: [userId])
+  users Users @relation(fields: [userId], references: [userId])
 }
