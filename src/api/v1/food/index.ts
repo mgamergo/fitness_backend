@@ -31,7 +31,12 @@ router.get("/get-todays-meals", async (req: Request, res: Response) => {
 router.post(
   "/add-meal",
   validateJwt as any,
-  async (req: Request, res: Response) => {
+  async (req: Request & { user?: { userId: number } }, res: Response) => {
+    if (!req.user?.userId) {
+      res.status(401).json({ message: "Unauthorized" });
+      return;
+    }
+
     const userId = req.user.userId;
     const { recipeName, calories, protein, carbs, fats, fiber } = req.body;
 
@@ -56,6 +61,26 @@ router.post(
   }
 );
 
+router.post("/add-recipe", async (req: Request, res: Response) => {
+  const { recipeName, calories, protein, carbs, fats, fiber } = req.body;
+  try {
+    await dbClient.recipes.create({
+      data: {
+        recipeName,
+        calories,
+        protein,
+        carbs,
+        fats,
+        fiber,
+      },
+    });
+    res.status(201).json({ message: "Recipe added successfully" });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 // Get all recipes
 router.get("/get-all-recipes", async (req: Request, res: Response) => {
   try {
@@ -70,7 +95,7 @@ router.get("/get-all-recipes", async (req: Request, res: Response) => {
 
 // Get a recipe bu Id from the recipes present in database
 router.get(
-  "/get-recipe-info/:recipeId",
+  "/get-recipe/:recipeId",
   async (req: Request, res: Response) => {
     const { recipeId } = req.params;
 

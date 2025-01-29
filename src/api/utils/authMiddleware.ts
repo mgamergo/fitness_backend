@@ -1,7 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
-export const validateJwt = (req: Request, res: Response, next: NextFunction) => {
+interface AuthRequest extends Request {
+    user?: { userId: number };
+  }
+
+export const validateJwt = (req: AuthRequest, res: Response, next: NextFunction) => {
     const token = req.cookies.jwt;
 
     if (!token) return res.status(401).json({ message: "No token found" });
